@@ -1,87 +1,109 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+//requições
+const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
 
+//configuração do express (server pra pagina e postman)
 const app = express();
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 const port = 3000;
 
-mongoose.connect("mongodb://127.0.0.1:27017/pethouse",
-{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}); 
+//configuração do servidor mongodb
+//conecte o mongodb
+mongoose.connect('mongodb://127.0.0.1:27017/pethouse', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 20000
+})
 
-const UsuarioSchema = new  mongoose.Schema({
-    email : {type : String , required : true},
-    senha : {type : String , require : true}
+
+//criando a model solicitada
+const UsuarioSchema = new mongoose.Schema({
+
+  email: { type: String, required: true },
+  password: { type: String },
 });
+
 const Usuario = mongoose.model("Usuario", UsuarioSchema);
+
+//roteamento padrão
 
 app.post("/cadastrousuario", async (req, res) => {
   const email = req.body.email;
-  const senha = req.body.senha;
+  const password = req.body.password
 
-  if(email == null || senha == null){
-    return res.status(400).json({error : "Preenchar todos os campos!!!"});
-  }
 
-  const Usuario = new Usuario({
+  const usuario = new Usuario({
     email: email,
-    senha : senha
-  });
- 
+    password: password
+  })
+
   try {
-    const newUsuario = await Usuario.save();
-    res.json({ error: null, msg: "Cadastro ok", UsuarioId: newUsuario._id });
-  } catch (error) {}
+    const newUsuario = await usuario.save();
+
+    res.json({ error: null, msg: "Cadastro feito com sucesso", usuarioId: newUsuario._id });
+  }
+  catch (error) {
+    res.status(400).json({ error });
+  }
 });
 
+app.get("/cadastrousuario", async (req, res) => {
+  res.sendFile(__dirname + "/cadastrousuario.html")
+})
 
-const ProdutoPetSchema = new mongoose.Schema({
-    id_produtopet : {type : String , required : true},
-    descricao : {type : String , required : true},
-    fornecedor : {type : String , required : true},
-    dataValidade : {type : Date , required : true},
-    quantidadeEstoque : {type : Number , required : true}
+//segunda model
+
+const ProdutopetSchema = new mongoose.Schema({
+  id_produtopet: { type: String, required: true },
+  descricao: { type: String },
+  fornecedor: { type: String },
+  dataValidade: { type: Date },
+  quantidadeEstoque: { type: Number }
 });
-const ProdutoPet = mongoose.model("ProdutoPet", ProdutoPetSchema);
+
+const Produtopet = mongoose.model("Produtopet", ProdutopetSchema);
+
+//roteamento padrão
 
 app.post("/cadastroprodutopet", async (req, res) => {
-    const id_produtopet = req.body.id_produtopet;
-    const descricao = req.body.descricao;
-    const fornecedor = req.body.fornecedor;
-    const dataValidade = req.body.dataValidade;
-    const quantidadeEstoque = req.body.quantidadeEstoque;
-  
-    if(id_produtopet == null || nome == null || descricao == null || fornecedor == null || dataValidade == null || quantidadeEstoque == null ){
-      return res.status(400).json({error : "Preenchar todos os campos!!!"});
-    }
+  const id_produtopet = req.body.id_produtopet;
+  const descricao = req.body.descricao;
+  const fornecedor = req.body.fornecedor;
+  const dataValidade = req.body.dataValidade;
+  const quantidadeEstoque = req.body.quantidadeEstoque;
 
-    const produtopet = new produtopet({
-        email: email,
-        senha : senha
-      });
-     
-      try {
-        const newprodutopet = await produtopet.save();
-        res.json({ error: null, msg: "Cadastro ok", id_produtopet: newprodutopet._id });
-      } catch (error) {}
-    });
 
-    app.get("/cadastrousuario", async (req, res) => {
-        res.sendFile(__dirname + "/cadastrousuario.html");
-      });
+  const produtopet = new Produtopet({
+    id_produtopet: id_produtopet,
+    descricao: descricao,
+    fornecedor: fornecedor,
+    dataValidade: dataValidade,
+    quantidadeEstoque: quantidadeEstoque
+  });
 
-      app.get("/cadastroprodutopet", async (req, res) => {
-        res.sendFile(__dirname + "/cadastroprodutopet.html");
-      });
-       
-      app.get("/", async (req, res) => {
-        res.sendFile(__dirname + "/index.html");
-      });
-       
-      app.listen(port, () => {
-        console.log(`Servidor rodando na porta ${port}`);
-      });
+  try {
+    const newProdutopet = await produtopet.save();
+
+    res.json({ error: null, msg: "Cadastro feito com sucesso", produtopetId: newProdutopet._id });
+  }
+  catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.get("/cadastroprodutopet", async (req, res) => {
+  res.sendFile(__dirname + "/cadastroprodutopet.html")
+})
+
+
+
+app.get("/", async (req, res) => {
+  res.sendFile(__dirname + "/index.html")
+});
+
+
+app.listen(port, () => {
+  console.log(`servidor rodando na porta ${port}`)
+})
