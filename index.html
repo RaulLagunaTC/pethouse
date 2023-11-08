@@ -9,17 +9,59 @@
     <title>Pet House</title>
 </head>
 <body>
-    <img class="logotipo" src="https://th.bing.com/th/id/OIG.jYSJS.ljX45YCk4Fi7gb?pid=ImgGn" width="100px" height="100px">
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Pet House</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Produto</a>
-        </li>
-      </ul>
+    <nav>
+        <h1 class="nomeProjeto">
+            Pet House
+        </h1>
+        <div class="nav-logo">
+            <a href="#">
+                <img src="https://th.bing.com/th/id/OIG.jYSJS.ljX45YCk4Fi7gb?pid=ImgGn">
+            </a>
+        </div>
+        <button class="btn" onclick="cadastroUsuario()">Login</button>
+        <button class="btn" onclick="cadastroProduto()">Cadastrar Produto</button>
+    </nav>
+
+    <header class="container">
+        <div class="content">
+            <H1>O melhor para seu pet</H1>
+            <p>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus rem eos aliquid quo rerum
+                temporibus ipsum distinctio numquam ut omnis placeat, nam sint atque quos dolorem laborum? Rerum, esse
+                dolorem.
+            </p>
+        </div>
+        <div class="image">
+            <img src="https://th.bing.com/th/id/OIG.KdQ_4nXMx3gleK5g9ZHz?pid=ImgGn">
+        </div>
+    </header>
+
+    <section class="container">
+        <h2 class="header">Produtos PetHouse</h2>
+        <div class="pricing">
+            <div class="card">
+                <div class="content">
+                    <h4>Cat Nip</h4>
+                    <h3>20$</h3>
+                </div>
+                <button class="btn" onclick="cadastroProduto()">Comprar</button>
+            </div>
+            <div class="card">
+                <div class="content">
+                    <h4>Coleira para cachorro</h4>
+                    <h3>30$</h3>
+                </div>
+                <button class="btn" onclick="cadastroProduto()">Comprar</button>
+            </div>
+            <div class="card">
+                <div class="content">
+                    <h4>Gaiola para papagaio</h4>
+                    <h3>100$</h3>
+                </div>
+                <button class="btn" onclick="cadastroProduto()">Comprar</button>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
 </body>
 </html>

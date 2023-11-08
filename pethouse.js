@@ -72,6 +72,13 @@ app.post("/cadastroprodutopet", async (req, res) => {
     quantidadeEstoque: quantidadeEstoque
   });
 
+  if(quantidadeEstoque > 12){
+    return res.status(400).json({error : "Acabou o estoque, não é possivel cadastrar mais!"});
+}
+else if(quantidadeEstoque <= 0){
+    return res.status(400).json({error : "Você digitou um valor de estoque inválido. Insira um valor de estoque entre 1 e 12. "});
+}
+
   try {
     const newProdutopet = await produtopet.save();
 
@@ -96,3 +103,7 @@ app.get("/", async (req, res) => {
 app.listen(port, () => {
   console.log(`servidor rodando na porta ${port}`)
 })
+
+function index() {
+  window.location.href = "index.html";
+}
