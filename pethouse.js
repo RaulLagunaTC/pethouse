@@ -1,24 +1,18 @@
-//requições
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-//configuração do express (server pra pagina e postman)
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 const port = 3000;
 
-//configuração do servidor mongodb
-//conecte o mongodb
 mongoose.connect('mongodb://127.0.0.1:27017/pethouse', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 20000
 })
 
-
-//criando a model solicitada
 const UsuarioSchema = new mongoose.Schema({
 
   email: { type: String, required: true },
@@ -27,7 +21,6 @@ const UsuarioSchema = new mongoose.Schema({
 
 const Usuario = mongoose.model("Usuario", UsuarioSchema);
 
-//roteamento padrão
 
 app.post("/cadastrousuario", async (req, res) => {
   const email = req.body.email;
@@ -53,8 +46,6 @@ app.get("/cadastrousuario", async (req, res) => {
   res.sendFile(__dirname + "/cadastrousuario.html")
 })
 
-//segunda model
-
 const ProdutopetSchema = new mongoose.Schema({
   id_produtopet: { type: String, required: true },
   descricao: { type: String },
@@ -64,8 +55,6 @@ const ProdutopetSchema = new mongoose.Schema({
 });
 
 const Produtopet = mongoose.model("Produtopet", ProdutopetSchema);
-
-//roteamento padrão
 
 app.post("/cadastroprodutopet", async (req, res) => {
   const id_produtopet = req.body.id_produtopet;
